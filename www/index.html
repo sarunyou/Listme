@@ -42,6 +42,7 @@
      <ion-list>
        <ion-item ng-repeat="task in activeProject.tasks">
          {{task.title}}
+         <i class="ion-close-circled" ng-click="showConfirm($index)" style="float:right"></i>
        </ion-item>
      </ion-list>
    </ion-content>

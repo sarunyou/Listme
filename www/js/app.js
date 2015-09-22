@@ -32,7 +32,7 @@ angular.module('todo', ['ionic'])
   }
 })
 
-.controller('TodoCtrl', function($scope, $timeout, $ionicModal, Projects, $ionicSideMenuDelegate) {
+.controller('TodoCtrl', function($scope, $timeout, $ionicModal, Projects, $ionicSideMenuDelegate, $ionicPopup) {
 
   // A utility function for creating a new project
   // with the given projectTitle
@@ -71,7 +71,12 @@ angular.module('todo', ['ionic'])
   }, {
     scope: $scope
   });
+  $scope.removeTask = function (id) {
+    $scope.activeProject.tasks.splice(id,1);
+    Projects.save($scope.projects);
 
+    // body...
+  }
   $scope.createTask = function(task) {
     if(!$scope.activeProject || !task) {
       return;
@@ -99,7 +104,22 @@ angular.module('todo', ['ionic'])
     $ionicSideMenuDelegate.toggleLeft();
   };
 
-
+  // A confirm dialog
+ $scope.showConfirm = function(id) {
+   var confirmPopup = $ionicPopup.confirm({
+     title: 'Cancel Task',
+     template: 'Are you sure you want to cancel this task?'
+   });
+   confirmPopup.then(function(res,id) {
+     if(res) {
+       $scope.activeProject.tasks.splice(id,1);
+       Projects.save($scope.projects);
+       console.log('You are sure');
+     } else {
+       console.log('You are not sure');
+     }
+   });
+ };
   // Try to create the first project, make sure to defer
   // this by using $timeout so everything is initialized
   // properly
