@@ -75,14 +75,14 @@ angular.module('todo', ['ionic'])
     $scope.activeProject.tasks.splice(id,1);
     Projects.save($scope.projects);
 
-    // body...
   }
   $scope.createTask = function(task) {
     if(!$scope.activeProject || !task) {
       return;
     }
     $scope.activeProject.tasks.push({
-      title: task.title
+      title: task.title,
+      done: false
     });
     $scope.taskModal.hide();
 
@@ -103,7 +103,22 @@ angular.module('todo', ['ionic'])
   $scope.toggleProjects = function() {
     $ionicSideMenuDelegate.toggleLeft();
   };
-
+  $scope.lengthActive = function(){
+    var count = 0;
+    for (var i = 0; i < $scope.activeProject.tasks.length; i++) {
+      if ( $scope.activeProject.tasks[i].done==false) {
+        count+=1;
+      }
+    }
+    return count;
+  };
+  $scope.checkboxToggle = function (id) {
+    if ($scope.activeProject.tasks[id].done == false){
+      $scope.activeProject.tasks[id].done = true;
+    }else{
+      $scope.activeProject.tasks[id].done = false;
+    }
+  }
   // A confirm dialog
  $scope.showConfirm = function(id) {
    var confirmPopup = $ionicPopup.confirm({
