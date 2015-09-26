@@ -55,7 +55,6 @@ angular.module('todo', ['ionic'])
   };
   // Load or initialize projects
   $scope.projects = Projects.all();
-  console.log("this is what i want"+$scope.Project);
   // Grab the last active, or the first project
   $scope.activeProject = $scope.projects[Projects.getLastActiveIndex()];
   $scope.activeProject.active =  true;
@@ -104,7 +103,7 @@ angular.module('todo', ['ionic'])
 
     // Inefficient, but save all the projects
     Projects.save($scope.projects);
-
+    $scope.activeProject.active = true;
     task.title = "";
   };
 
@@ -114,6 +113,19 @@ angular.module('todo', ['ionic'])
 
   $scope.closeNewTask = function() {
     $scope.taskModal.hide();
+  }
+  $scope.clearTaskComplete = function() {
+    // for (var i = 0; i < $scope.activeProject.tasks.length; i++) {
+    //   if ( $scope.activeProject.tasks[i].done==true) {
+    //     $scope.activeProject.tasks.splice(i,1);
+    //     console.log(i);
+    //   }
+    // }
+    $scope.activeProject.tasks = $scope.activeProject.tasks.filter(function (item) {
+      return item.done == false;
+    })
+    Projects.save($scope.projects);
+
   }
 
   $scope.toggleProjects = function() {

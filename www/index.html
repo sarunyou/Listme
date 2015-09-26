@@ -31,7 +31,7 @@
 
 
    <ion-side-menu-content>
-   <ion-header-bar class="bar-dark">
+   <ion-header-bar class="bar-assertive">
      <button class="button button-icon" ng-click="toggleProjects()">
        <i class="icon ion-navicon"></i>
      </button>
@@ -44,9 +44,9 @@
    <ion-content scroll="false">
       <ion-scroll direction ="y" style="height:600px" class="sample-show-hide">
        <ion-list   ng-repeat="task in activeProject.tasks">
-         <ion-item ng-hide="task.isDone == activeProject.active" class="sample-show-hide" >
+         <ion-item ng-hide="task.done == activeProject.active" class="sample-show-hide" >
            <input  type="checkbox" ng-model="task.isDone" ng-click="checkboxToggle($index)">
-            <span   >{{task.title }} </span>
+            <span   >{{task.title }} {{task.done}} </span>
 
            <i class="ion-close-circled" ng-click="showConfirm($index)" style="float:right"></i>
          </ion-item>
@@ -58,8 +58,9 @@
 
    <!-- footer -->
    <div class="bar bar-footer">
-  <button class="button button" ng-click=" showActive()">Active({{lengthActive()}})</button>
-  <button class="button button" ng-click="showComplete()">Complete({{ activeProject.tasks.length-lengthActive()}})</button>
+  <button class="button button {active: active == true}" ng-click=" showActive()">Active({{lengthActive()}})</button>
+  <button class="button button {active: active == false}" ng-click="showComplete()">Complete({{ activeProject.tasks.length-lengthActive()}})</button>
+  <button class="button button" ng-click="clearTaskComplete()">Clear</button>
   </div>
    <!-- Left menu -->
    <ion-side-menu side="left">
