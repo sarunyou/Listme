@@ -197,5 +197,4 @@ angular.module('todo', ['ionic'])
       }
     }
   });
-
 });
