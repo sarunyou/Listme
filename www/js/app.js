@@ -97,7 +97,8 @@ angular.module('todo', ['ionic'])
     }
     $scope.activeProject.tasks.push({
       title: task.title,
-      done: false
+      done: false,
+      date:task.date
     });
     $scope.taskModal.hide();
 

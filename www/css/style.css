@@ -20,3 +20,6 @@
   .sample-show-hide.ng-hide-remove.ng-hide-remove-active {
     opacity:1;
   }
+a:active {
+      background-color: orange;
+}

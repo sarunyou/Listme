@@ -41,27 +41,40 @@
        <i class="icon ion-compose"></i>
      </button>
    </ion-header-bar>
-   <ion-content scroll="false">
-      <ion-scroll direction ="y" style="height:600px" class="sample-show-hide">
-       <ion-list   ng-repeat="task in activeProject.tasks">
-         <ion-item ng-hide="task.done == activeProject.active" class="sample-show-hide" >
-           <input  type="checkbox" ng-model="task.isDone" ng-click="checkboxToggle($index)">
-            <span   >{{task.title }} </span>
-
-           <i class="ion-close-circled" ng-click="showConfirm($index)" style="float:right"></i>
-         </ion-item>
-       </ion-list>
+   <ion-content >
+      <ion-scroll direction ="y" style="height:600px" >
+        <div class="card sample-show-hide"  ng-repeat="task in activeProject.tasks | orderBy : task.date" ng-hide="task.done == activeProject.active" class="sample-show-hide" >
+          <div class="item item-divider">
+            <input  type="checkbox" ng-model="task.isDone" ng-click="checkboxToggle($index)">
+            {{task.date |date:'fullDate'}}
+          </div>
+          <div class="item item-text-wrap">
+            {{task.title}}
+          </div>
+        </div>
      </ion-scroll>
    </ion-content>
  </ion-side-menu-content>
 
 
    <!-- footer -->
-   <div class="bar bar-footer">
-  <button class="button button-assertive {active:activeProject.active == true}" ng-click=" showActive()">Active({{lengthActive()}})</button>
-  <button class="button button-assertive {active:activeProject.active == false}" style="margin-left:5px" ng-click="showComplete()">Complete({{ activeProject.tasks.length-lengthActive()}})</button>
-  <button class="button button-assertive" ng-click="clearTaskComplete()">Clear</button>
+   <div class="tabs-striped tabs-color-assertive">
+    <div class="tabs">
+      <a class="tab-item " ng-click=" showActive()" href="">
+        <i class="ion-clipboard"></i>
+      Active({{lengthActive()}})
+      </a>
+      <a class="tab-item " ng-click="showComplete()" href="">
+        <i class="ion-flag"></i>
+        Complete({{ activeProject.tasks.length-lengthActive()}})
+      </a>
+      <a class="tab-item" ng-click="clearTaskComplete()" href="">
+        <i class="ion-ios-trash-outline"></i>
+      Clear
+      </a>
+    </div>
   </div>
+
    <!-- Left menu -->
    <ion-side-menu side="left">
    <ion-header-bar class="bar-assertive">
@@ -69,7 +82,7 @@
      <button class="button button-icon ion-plus" ng-click="newProject()">
      </button>
    </ion-header-bar>
-   <ion-content scroll="false">
+   <ion-content >
      <ion-list>
        <ion-item ng-repeat="project in projects" ng-click="selectProject(project, $index)" ng-class="{active: activeProject == project}">
          {{project.title}}
@@ -99,6 +112,10 @@
           <label class="item item-input">
             <input type="text" placeholder="What do you need to do?" ng-model="task.title">
 
+          </label>
+          <label class="item item-input">
+            <span class="input-label">Date</span>
+            <input type="date" ng-model="task.date" required>
           </label>
         </div>
         <div class="padding">
