@@ -44,11 +44,18 @@ angular.module('todo', ['ionic'])
     Projects.save($scope.projects);
     $scope.selectProject(newProject, $scope.projects.length-1);
   }
+  $scope.removeProject = function(id) {
+    if($scope.projects.length != 2){
+      $scope.projects.splice(id,1);
+      Projects.save($scope.projects);
+      $scope.activeProject = $scope.projects[0];
+      Projects.setLastActiveIndex($scope.projects.length-1);
+    }
 
-
+  };
   // Load or initialize projects
   $scope.projects = Projects.all();
-
+  console.log("this is what i want"+$scope.Project);
   // Grab the last active, or the first project
   $scope.activeProject = $scope.projects[Projects.getLastActiveIndex()];
   $scope.activeProject.active =  true;
@@ -65,6 +72,7 @@ angular.module('todo', ['ionic'])
       createProject(projectTitle);
     }
   };
+
 
   // Called to select the given project
   $scope.selectProject = function(project, index) {
@@ -138,6 +146,25 @@ angular.module('todo', ['ionic'])
      if(res) {
        $scope.activeProject.tasks.splice(id,1);
        Projects.save($scope.projects);
+       console.log('You are sure');
+     } else {
+       console.log('You are not sure');
+     }
+   });
+ };
+ $scope.showConfirmDeleteProject = function(id) {
+   var confirmPopupDel = $ionicPopup.confirm({
+     title: 'Delete Project',
+     template: 'Are you sure you want to delete this project?'
+   });
+   confirmPopupDel.then(function(res,id) {
+     if(res) {
+       if($scope.projects.length != 2){
+         $scope.projects.splice(id,1);
+         Projects.save($scope.projects);
+         $scope.activeProject = $scope.projects[0];
+         Projects.setLastActiveIndex($scope.projects.length-1);
+       }
        console.log('You are sure');
      } else {
        console.log('You are not sure');
