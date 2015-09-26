@@ -1,4 +1,6 @@
 angular.module('todo', ['ionic'])
+
+.config(function($stateProvider, $urlRouterProvider) {})
 /**
  * The Projects factory handles saving and loading projects
  * from local storage, and also lets us save and load the
@@ -49,7 +51,13 @@ angular.module('todo', ['ionic'])
 
   // Grab the last active, or the first project
   $scope.activeProject = $scope.projects[Projects.getLastActiveIndex()];
-
+  $scope.activeProject.active =  true;
+  $scope.showComplete = function () {
+    $scope.activeProject.active =  false;
+  }
+  $scope.showActive = function () {
+    $scope.activeProject.active =  true;
+  }
   // Called to create a new project
   $scope.newProject = function() {
     var projectTitle = prompt('Project name');
@@ -118,6 +126,7 @@ angular.module('todo', ['ionic'])
     }else{
       $scope.activeProject.tasks[id].done = false;
     }
+    Projects.save($scope.projects);
   }
   // A confirm dialog
  $scope.showConfirm = function(id) {
