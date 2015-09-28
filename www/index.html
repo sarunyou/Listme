@@ -46,7 +46,7 @@
         <div>
           <div class="card sample-show-hide"  ng-repeat="task in activeProject.tasks | orderBy : 'date' " ng-hide="task.done == activeProject.active" class="sample-show-hide" >
             <div class="item item-divider" style="background-color:#ffc900;color:white">
-              <input  type="checkbox" ng-model="task.isDone" ng-click="checkboxToggle($index)">
+              <input  type="checkbox" ng-model="task.isDone" ng-click="checkboxToggle(activeProject.tasks.indexOf(task))">
                  {{task.date |date:'fullDate' }}
               <i class="ion-close-circled" ng-click="showConfirm()" style="float:right"></i>
             </div>
