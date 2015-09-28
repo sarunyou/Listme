@@ -68,7 +68,7 @@ angular.module('todo', ['ionic'])
   }
   // Called to create a new project
   $scope.newProject = function() {
-    var projectTitle = prompt('Project name');
+    var projectTitle = prompt('Group name');
     if(projectTitle) {
       createProject(projectTitle);
     }
@@ -174,10 +174,10 @@ angular.module('todo', ['ionic'])
  };
  $scope.showConfirmDeleteProject = function(id) {
    var confirmPopupDel = $ionicPopup.confirm({
-     title: 'Delete Project',
-     template: 'Are you sure you want to delete this project?'
+     title: 'Delete Group',
+     template: 'Are you sure you want to delete '+$scope.projects[id].title+' group?'
    });
-   confirmPopupDel.then(function(res,id) {
+   confirmPopupDel.then(function(res) {
      if(res) {
        if($scope.projects.length != 0){
          $scope.projects.splice(id,1);
