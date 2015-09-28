@@ -22,7 +22,8 @@ angular.module('todo', ['ionic'])
       // Add a new project
       return {
         title: projectTitle,
-        tasks: []
+        tasks: [],
+        active:true
       };
     },
     getLastActiveIndex: function() {
@@ -45,7 +46,7 @@ angular.module('todo', ['ionic'])
     $scope.selectProject(newProject, $scope.projects.length-1);
   }
   $scope.removeProject = function(id) {
-    if($scope.projects.length != 2){
+    if($scope.projects.length != 1){
       $scope.projects.splice(id,1);
       Projects.save($scope.projects);
       $scope.activeProject = $scope.projects[0];
@@ -55,9 +56,10 @@ angular.module('todo', ['ionic'])
   };
   // Load or initialize projects
   $scope.projects = Projects.all();
+
   // Grab the last active, or the first project
   $scope.activeProject = $scope.projects[Projects.getLastActiveIndex()];
-  $scope.activeProject.active =  true;
+  // $scope.activeProject.active =  true;
   $scope.showComplete = function () {
     $scope.activeProject.active =  false;
   }
@@ -79,8 +81,13 @@ angular.module('todo', ['ionic'])
     Projects.setLastActiveIndex(index);
     $ionicSideMenuDelegate.toggleLeft(false);
   };
+  if($scope.projects.length == 0){
+    createProject("#Example");
+  }
+
 
   // Create our modal
+
   $ionicModal.fromTemplateUrl('new-task.html', function(modal) {
     $scope.taskModal = modal;
   }, {
@@ -172,7 +179,7 @@ angular.module('todo', ['ionic'])
    });
    confirmPopupDel.then(function(res,id) {
      if(res) {
-       if($scope.projects.length != 2){
+       if($scope.projects.length != 0){
          $scope.projects.splice(id,1);
          Projects.save($scope.projects);
          $scope.activeProject = $scope.projects[0];
