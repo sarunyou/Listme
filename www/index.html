@@ -31,7 +31,7 @@
 
 
    <ion-side-menu-content>
-   <ion-header-bar class="bar-assertive">
+   <ion-header-bar class="bar-energized">
      <button class="button button-icon" ng-click="toggleProjects()">
        <i class="icon ion-navicon"></i>
      </button>
@@ -61,11 +61,11 @@
 
 
    <!-- footer -->
-   <div class="tabs-striped tabs-color-assertive">
-    <div class="tabs">
+   <div class="tabs tabs-icon-only " style="background-color:#ffc900;color:white">
+
       <a class="tab-item " ng-click=" showActive()">
         <i class="ion-ios-compose-outline"></i>
-      Active({{lengthActive()}})
+        Active({{lengthActive()}})
       </a>
       <a class="tab-item " ng-click="showComplete()" href="">
         <i  class="ion-ios-star-outline" ></i>
@@ -75,12 +75,11 @@
         <i class="ion-ios-trash-outline"></i>
       Clear
       </a>
-    </div>
   </div>
 
    <!-- Left menu -->
    <ion-side-menu side="left">
-   <ion-header-bar class="bar-assertive">
+   <ion-header-bar class="bar-energized">
      <h1 class="title">Projects({{projects.length}})</h1>
      <button class="button button-icon ion-plus" ng-click="newProject()">
      </button>
@@ -104,7 +103,7 @@
     <!-- Modal header bar -->
     <ion-header-bar class="bar-secondary">
       <h1 class="title">New Task</h1>
-      <button class="button button-clear button-assertive" ng-click="closeNewTask()">Cancel</button>
+      <button class="button button-clear button-energized" ng-click="closeNewTask()">Cancel</button>
     </ion-header-bar>
 
     <!-- Modal content area -->
@@ -122,7 +121,7 @@
           </label>
         </div>
         <div class="padding">
-          <button type="submit" class="button button-block button-assertive">Create Task</button>
+          <button type="submit" class="button button-block button-energized">Create Task</button>
         </div>
       </form>
 
