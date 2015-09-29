@@ -99,14 +99,38 @@ angular.module('todo', ['ionic'])
 
   }
   $scope.createTask = function(task) {
+    var useTo = false;
+    var arrDay = [];
+    arrDay.push(task.date);
+    // console.log(typeof(arrDay[0])); // type object
+    var valDay = JSON.stringify(arrDay[0]);
+    console.log(valDay)
     if(!$scope.activeProject || !task) {
       return;
+    };
+
+    for (var i = 0; i <$scope.activeProject.tasks.length; i++) {
+
+      var StrTask = JSON.stringify($scope.activeProject.tasks[i].date);
+      // var ObjTask = JSON.parse(StrTask);
+      console.log('objec.date = '+ StrTask);
+      console.log('task.date = ' +valDay);
+      // console.log(arrDay[0]);
+      // console.log('ObjTask : '+ObjTask.date);
+      if(valDay == StrTask){
+        console.log('hit');
+        $scope.activeProject.tasks[i].title.push(task.title);
+        useTo = true;
+      }
     }
-    $scope.activeProject.tasks.push({
-      title: task.title,
-      done: false,
-      date:task.date
-    });
+
+    if(!useTo){
+      $scope.activeProject.tasks.push({
+        title: [task.title],
+        done: false,
+        date:task.date
+      });
+    }
     $scope.taskModal.hide();
 
     // Inefficient, but save all the projects
@@ -123,12 +147,7 @@ angular.module('todo', ['ionic'])
     $scope.taskModal.hide();
   }
   $scope.clearTaskComplete = function() {
-    // for (var i = 0; i < $scope.activeProject.tasks.length; i++) {
-    //   if ( $scope.activeProject.tasks[i].done==true) {
-    //     $scope.activeProject.tasks.splice(i,1);
-    //     console.log(i);
-    //   }
-    // }
+
     $scope.activeProject.tasks = $scope.activeProject.tasks.filter(function (item) {
       return item.done == false;
     })
