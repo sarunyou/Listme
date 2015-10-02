@@ -23,3 +23,20 @@
 a:active {
       background-color: orange;
 }
+.angular-google-map-container {
+  height: 50%;
+}
+
+.marker-labels {
+  width: 160px;
+  padding: 10px;
+  background: #fff;
+  border-radius: 5px;
+}
+#map {
+    width: 50%;
+    height: 50%;
+}
+.scroll {
+    height: 100%;
+}

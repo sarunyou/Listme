@@ -15,8 +15,7 @@
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
-
-    <!-- cordova script (this will be a 404 during development) -->
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDcn65DRto6-VA-4ikKfIpTlTmvfKhwul0&sensor=true"></script>    <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 
     <!-- your app's js -->
@@ -35,7 +34,7 @@
      <button class="button button-icon" ng-click="toggleProjects()">
        <i class="icon ion-navicon"></i>
      </button>
-     <h1 class="title" style="text-align:center">{{activeProject.title}} </h1>
+     <h1 class="title" style="text-align:center">{{activeProject.title}}  </h1>
      <!-- New Task button-->
      <button class="button button-icon" ng-click="newTask()">
        <i class="icon ion-compose"></i>
@@ -44,15 +43,15 @@
    <ion-content >
       <ion-scroll direction ="y" style="height:600px" >
         <div>
-          <div class="card sample-show-hide"  ng-repeat="task in activeProject.tasks | orderBy : 'date' " ng-hide="task.done == activeProject.active" class="sample-show-hide" >
+          <div class="card sample-show-hide"  ng-repeat="task in activeProject.tasks | orderBy : 'date' " ng-hide="task.done == task.title.length && task.done != 0" class="sample-show-hide" >
             <div class="item item-divider" style="background-color:#ffc900;color:white">
               <!-- <input  type="checkbox" ng-model="task.isDone" ng-click="checkboxToggle(activeProject.tasks.indexOf(task))"> -->
-                 {{task.date |date:'fullDate' }}
+                 {{task.date |date:'fullDate' }} {{task.done}}w
               <i class="ion-close-circled" ng-click="showConfirm()" style="float:right"></i>
             </div>
-            <div class="item item-text-wrap" ng-repeat="minitask in task.title">
-              <input  type="checkbox" ng-model="task.isDone" ng-click="checkboxToggle(activeProject.tasks.indexOf(task))">
-                {{minitask}}
+            <div class="item sample-show-hide " ng-hide="minitask.done == true" ng-repeat="minitask in task.title">
+                <input  type="checkbox"  ng-click="checkboxToggle(activeProject.tasks.indexOf(task),$index)">
+                {{minitask.name}} {{$index}}
             </div>
           </div>
         </div>
@@ -120,6 +119,7 @@
             <span class="input-label">Date</span>
             <input type="date" ng-model="task.date" required>
           </label>
+
         </div>
         <div class="padding">
           <button type="submit" class="button button-block button-energized">Create Task</button>

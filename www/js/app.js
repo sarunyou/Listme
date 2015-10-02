@@ -37,6 +37,8 @@ angular.module('todo', ['ionic'])
 
 .controller('TodoCtrl', function($scope, $timeout, $ionicModal, Projects, $ionicSideMenuDelegate, $ionicPopup) {
 
+  //map
+
   // A utility function for creating a new project
   // with the given projectTitle
   var createProject = function(projectTitle) {
@@ -104,7 +106,7 @@ angular.module('todo', ['ionic'])
     arrDay.push(task.date);
     // console.log(typeof(arrDay[0])); // type object
     var valDay = JSON.stringify(arrDay[0]);
-    console.log(valDay)
+    // console.log(valDay)
     if(!$scope.activeProject || !task) {
       return;
     };
@@ -113,21 +115,21 @@ angular.module('todo', ['ionic'])
 
       var StrTask = JSON.stringify($scope.activeProject.tasks[i].date);
       // var ObjTask = JSON.parse(StrTask);
-      console.log('objec.date = '+ StrTask);
-      console.log('task.date = ' +valDay);
+      // console.log('objec.date = '+ StrTask);
+      // console.log('task.date = ' +valDay);
       // console.log(arrDay[0]);
       // console.log('ObjTask : '+ObjTask.date);
       if(valDay == StrTask){
-        console.log('hit');
-        $scope.activeProject.tasks[i].title.push(task.title);
+        console.log('hit same day');
+        $scope.activeProject.tasks[i].title.push({name:task.title,done:false});
         useTo = true;
       }
     }
 
     if(!useTo){
       $scope.activeProject.tasks.push({
-        title: [task.title],
-        done: false,
+        title: [{name:task.title,done:false}],
+        done: 0,
         date:task.date
       });
     }
@@ -167,11 +169,15 @@ angular.module('todo', ['ionic'])
     }
     return count;
   };
-  $scope.checkboxToggle = function (id) {
-    if ($scope.activeProject.tasks[id].done == false){
-      $scope.activeProject.tasks[id].done = true;
+  $scope.checkboxToggle = function (idTasks,idTask) {
+    console.log($scope.activeProject.tasks[idTasks].title[idTask].name);
+    if ($scope.activeProject.tasks[idTasks].title[idTask].done == false){
+        $scope.activeProject.tasks[idTasks].title[idTask].done = true;
+        $scope.activeProject.tasks[idTasks].done+=1;
     }else{
-      $scope.activeProject.tasks[id].done = false;
+      $scope.activeProject.tasks[idTasks].title[idTask].done = false;
+      $scope.activeProject.tasks[idTasks].done-=1;
+
     }
     Projects.save($scope.projects);
   }
