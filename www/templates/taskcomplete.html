@@ -1,0 +1,22 @@
+<ion-view >
+  <div class="bar bar-subheader " style="background-color:#FFD633">
+  <h2 class="title" style="color:white">Completed Task</h2>
+</div>
+<ion-content class="has-subheader padding" style="height:550px">
+
+        <div>
+          <div class="card sample-show-hide"  ng-repeat="task in activeProject.tasks | orderBy : 'date' " ng-hide="task.done == 0" class="sample-show-hide" >
+            <div class="item item-divider" style="background-color:#FFD633;color:white">
+              <!-- <input  type="checkbox" ng-model="task.isDone" ng-click="checkboxToggle(activeProject.tasks.indexOf(task))"> -->
+                 {{task.date |date:'fullDate' }} {{task.done}} {{task.title.length}}
+              <i class="ion-close-circled" ng-click="showConfirm()" style="float:right"></i>
+            </div>
+            <div class="item sample-show-hide " ng-hide="minitask.done != true" ng-repeat="minitask in task.title">
+              <i class="icon ion-reply" ng-click="checkboxToggle(activeProject.tasks.indexOf(task),$index)" ></i>
+                {{minitask.name}} {{$index}}
+            </div>
+          </div>
+        </div>
+
+  </ion-content>
+</ion-view>

@@ -1,4 +1,4 @@
-angular.module('todo', ['ionic'])
+angular.module('todo', ['ionic', 'todo.controllers', 'todo.service'])
 
 
 /**
@@ -6,228 +6,56 @@ angular.module('todo', ['ionic'])
  * from local storage, and also lets us save and load the
  * last active project index.
  */
-.factory('Projects', function() {
-  return {
-    all: function() {
-      var projectString = window.localStorage['projects'];
-      if(projectString) {
-        return angular.fromJson(projectString);
-      }
-      return [];
-    },
-    save: function(projects) {
-      window.localStorage['projects'] = angular.toJson(projects);
-    },
-    newProject: function(projectTitle) {
-      // Add a new project
-      return {
-        title: projectTitle,
-        tasks: [],
-        active:true
-      };
-    },
-    getLastActiveIndex: function() {
-      return parseInt(window.localStorage['lastActiveProject']) || 0;
-    },
-    setLastActiveIndex: function(index) {
-      window.localStorage['lastActiveProject'] = index;
-    }
-  }
-})
 
-.controller('TodoCtrl', function($scope, $timeout, $ionicModal, Projects, $ionicSideMenuDelegate, $ionicPopup) {
+.config(function($stateProvider, $urlRouterProvider) {
 
-  //map
+  // Ionic uses AngularUI Router which uses the concept of states
+  // Learn more here: https://github.com/angular-ui/ui-router
+  // Set up the various states which the app can be in.
+  // Each state's controller can be found in controllers.js
+  $stateProvider
 
-  // A utility function for creating a new project
-  // with the given projectTitle
-  var createProject = function(projectTitle) {
-    var newProject = Projects.newProject(projectTitle);
-    $scope.projects.push(newProject);
-    Projects.save($scope.projects);
-    $scope.selectProject(newProject, $scope.projects.length-1);
-  }
-  $scope.removeProject = function(id) {
-    if($scope.projects.length != 1){
-      $scope.projects.splice(id,1);
-      Projects.save($scope.projects);
-      $scope.activeProject = $scope.projects[0];
-      Projects.setLastActiveIndex($scope.projects.length-1);
-    }
+  // setup an abstract state for the tabs directive
+    .state('app', {
+    url: "/app",
+    abstract: true,
+    templateUrl: "templates/projects.html",
+    controller: 'TodoCtrl'
+  })
 
-  };
-  // Load or initialize projects
-  $scope.projects = Projects.all();
-
-  // Grab the last active, or the first project
-  $scope.activeProject = $scope.projects[Projects.getLastActiveIndex()];
-  // $scope.activeProject.active =  true;
-  $scope.showComplete = function () {
-    $scope.activeProject.active =  false;
-  }
-  $scope.showActive = function () {
-    $scope.activeProject.active =  true;
-  }
-  // Called to create a new project
-  $scope.newProject = function() {
-    var projectTitle = prompt('Group name');
-    if(projectTitle) {
-      createProject(projectTitle);
-    }
-  };
-
-
-  // Called to select the given project
-  $scope.selectProject = function(project, index) {
-    $scope.activeProject = project;
-    Projects.setLastActiveIndex(index);
-    $ionicSideMenuDelegate.toggleLeft(false);
-  };
-  if($scope.projects.length == 0){
-    createProject("#Example");
-  }
-
-
-  // Create our modal
-
-  $ionicModal.fromTemplateUrl('new-task.html', function(modal) {
-    $scope.taskModal = modal;
-  }, {
-    scope: $scope
-  });
-  $scope.removeTask = function (id) {
-    $scope.activeProject.tasks.splice(id,1);
-    Projects.save($scope.projects);
-
-  }
-  $scope.createTask = function(task) {
-    var useTo = false;
-    var arrDay = [];
-    arrDay.push(task.date);
-    // console.log(typeof(arrDay[0])); // type object
-    var valDay = JSON.stringify(arrDay[0]);
-    // console.log(valDay)
-    if(!$scope.activeProject || !task) {
-      return;
-    };
-
-    for (var i = 0; i <$scope.activeProject.tasks.length; i++) {
-
-      var StrTask = JSON.stringify($scope.activeProject.tasks[i].date);
-      // var ObjTask = JSON.parse(StrTask);
-      // console.log('objec.date = '+ StrTask);
-      // console.log('task.date = ' +valDay);
-      // console.log(arrDay[0]);
-      // console.log('ObjTask : '+ObjTask.date);
-      if(valDay == StrTask){
-        console.log('hit same day');
-        $scope.activeProject.tasks[i].title.push({name:task.title,done:false});
-        useTo = true;
-      }
-    }
-
-    if(!useTo){
-      $scope.activeProject.tasks.push({
-        title: [{name:task.title,done:false}],
-        done: 0,
-        date:task.date
-      });
-    }
-    $scope.taskModal.hide();
-
-    // Inefficient, but save all the projects
-    Projects.save($scope.projects);
-    $scope.activeProject.active = true;
-    task.title = "";
-  };
-
-  $scope.newTask = function() {
-    $scope.taskModal.show();
-  };
-
-  $scope.closeNewTask = function() {
-    $scope.taskModal.hide();
-  }
-  $scope.clearTaskComplete = function() {
-
-    $scope.activeProject.tasks = $scope.activeProject.tasks.filter(function (item) {
-      return item.done == false;
-    })
-    Projects.save($scope.projects);
-
-  }
-
-  $scope.toggleProjects = function() {
-    $ionicSideMenuDelegate.toggleLeft();
-  };
-  $scope.lengthActive = function(){
-    var count = 0;
-    for (var i = 0; i < $scope.activeProject.tasks.length; i++) {
-      if ( $scope.activeProject.tasks[i].done==false) {
-        count+=1;
-      }
-    }
-    return count;
-  };
-  $scope.checkboxToggle = function (idTasks,idTask) {
-    console.log($scope.activeProject.tasks[idTasks].title[idTask].name);
-    if ($scope.activeProject.tasks[idTasks].title[idTask].done == false){
-        $scope.activeProject.tasks[idTasks].title[idTask].done = true;
-        $scope.activeProject.tasks[idTasks].done+=1;
-    }else{
-      $scope.activeProject.tasks[idTasks].title[idTask].done = false;
-      $scope.activeProject.tasks[idTasks].done-=1;
-
-    }
-    Projects.save($scope.projects);
-  }
-  // A confirm dialog
- $scope.showConfirm = function(id) {
-   var confirmPopup = $ionicPopup.confirm({
-     title: 'Cancel Task',
-     template: 'Are you sure you want to cancel this task?'
-   });
-   confirmPopup.then(function(res,id) {
-     if(res) {
-       $scope.activeProject.tasks.splice(id,1);
-       Projects.save($scope.projects);
-       console.log('You are sure');
-     } else {
-       console.log('You are not sure');
-     }
-   });
- };
- $scope.showConfirmDeleteProject = function(id) {
-   var confirmPopupDel = $ionicPopup.confirm({
-     title: 'Delete Group',
-     template: 'Are you sure you want to delete '+$scope.projects[id].title+' group?'
-   });
-   confirmPopupDel.then(function(res) {
-     if(res) {
-       if($scope.projects.length != 0){
-         $scope.projects.splice(id,1);
-         Projects.save($scope.projects);
-         $scope.activeProject = $scope.projects[0];
-         Projects.setLastActiveIndex($scope.projects.length-1);
-       }
-       console.log('You are sure');
-     } else {
-       console.log('You are not sure');
-     }
-   });
- };
-  // Try to create the first project, make sure to defer
-  // this by using $timeout so everything is initialized
-  // properly
-  $timeout(function() {
-    if($scope.projects.length == 0) {
-      while(true) {
-        var projectTitle = prompt('Your first project title:');
-        if(projectTitle) {
-          createProject(projectTitle);
-          break;
+  // the pet tab has its own child nav-view and history
+    .state('app.active', {
+      url: '/active',
+      views: {
+        'menuContent': {
+          parent:'app',
+          templateUrl: 'templates/active.html',
+          // controller: 'TodoCtrl'
         }
       }
-    }
-  });
+    })
+    .state('app.complete', {
+      url: '/complete',
+      views: {
+        'menuContent': {
+          parent:'app',
+          templateUrl: 'templates/taskcomplete.html',
+          // controller: 'TodoCtrl'
+        }
+      }
+    })
+
+  //  .state('app.maps', {
+  //    url: '/maps',
+  //    views: {
+  //      'menuContent': {
+  //        templateUrl: 'templates/maps.html',
+  //        controller: 'MapsCtrl'
+  //      }
+  //    }
+  //  });
+
+  // if none of the above states are matched, use this as the fallback
+  $urlRouterProvider.otherwise('/app/active');
+
 });
