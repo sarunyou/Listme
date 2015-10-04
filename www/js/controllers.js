@@ -179,14 +179,14 @@ angular.module('todo.controllers', ['todo.service'])
       Projects.save($scope.projects);
     }
     // A confirm dialog
-  $scope.showConfirm = function(id) {
+  $scope.showConfirm = function(idTasks,idTask) {
     var confirmPopup = $ionicPopup.confirm({
       title: 'Cancel Task',
       template: 'Are you sure you want to cancel this task?'
     });
     confirmPopup.then(function(res, id) {
       if (res) {
-        $scope.activeProject.tasks.splice(id, 1);
+        $scope.activeProject.tasks[idTasks].title.splice(idTask, 1);
         Projects.save($scope.projects);
         console.log('You are sure');
       } else {

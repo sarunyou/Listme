@@ -12,12 +12,15 @@
               <!-- <input  type="checkbox" ng-model="task.isDone" ng-click="checkboxToggle(activeProject.tasks.indexOf(task))"> -->
                  {{task.date |date:'fullDate' }} {{task.done}} {{task.title.length}}
 
-              <i class="ion-close-circled" ng-click="showConfirm()" style="float:right"></i>
             </div>
             <div class="item sample-show-hide " ng-hide="minitask.done == true" ng-repeat="minitask in task.title">
               <i class="icon ion-android-checkbox-outline-blank" style="font-size:22px" ng-click="checkboxToggle(activeProject.tasks.indexOf(task),$index)"></i>
               <span ng-dblclick="editItem()" ng-hide="editing">  {{minitask.name}}</span>
-              <input ng-show="editing" ng-model="minitask.name" ng-blur="doneEditing()" autofocus>
+              <i class="ion-close-circled" ng-click="showConfirm(activeProject.tasks.indexOf(task),$index)" style="float:right"></i>
+
+              <form ng-submit="doneEditing()">
+              <input ng-show="editing"  class="pe" ng-model="minitask.name" ng-blur="doneEditing()" autofocus>
+              </form>
 
               <!-- <i class="icon ion-ios-checkmark-outline"  style="font-size:20px"></i> -->
             </div>

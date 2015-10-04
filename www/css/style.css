@@ -40,3 +40,10 @@ a:active {
 .scroll {
     height: 100%;
 }
+input:focus {
+}
+input {
+    border:none;
+    /*border-color: inherit;*/
+    background-color:transparent;
+}
