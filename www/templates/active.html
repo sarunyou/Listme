@@ -16,7 +16,8 @@
             </div>
             <div class="item sample-show-hide " ng-hide="minitask.done == true" ng-repeat="minitask in task.title">
               <i class="icon ion-android-checkbox-outline-blank" style="font-size:22px" ng-click="checkboxToggle(activeProject.tasks.indexOf(task),$index)"></i>
-                {{minitask.name}} {{$index}}
+              <span ng-dblclick="editItem()" ng-hide="editing">  {{minitask.name}}</span>
+              <input ng-show="editing" ng-model="minitask.name" ng-blur="doneEditing()" autofocus>
 
               <!-- <i class="icon ion-ios-checkmark-outline"  style="font-size:20px"></i> -->
             </div>

@@ -32,9 +32,19 @@ angular.module('todo.controllers', ['todo.service'])
   };
   // Load or initialize projects
   $scope.projects = Projects.all();
-
+  $scope.editing = false;
   // Grab the last active, or the first project
   $scope.activeProject = $scope.projects[Projects.getLastActiveIndex()];
+
+  // edit text
+    $scope.editItem = function () {
+        $scope.editing = true;
+    }
+
+    $scope.doneEditing = function () {
+        $scope.editing = false;
+        //dong some background ajax calling for persistence...
+    };
   // $scope.activeProject.active =  true;
   $scope.showComplete = function() {
     $scope.activeProject.active = false;
