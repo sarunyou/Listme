@@ -9,7 +9,7 @@
             <div class="item item-divider" style="background-color:#FFD633;color:white">
               <!-- <input  type="checkbox" ng-model="task.isDone" ng-click="checkboxToggle(activeProject.tasks.indexOf(task))"> -->
                  {{task.date |date:'fullDate' }} {{task.done}} {{task.title.length}}
-              <i class="ion-close-circled" ng-click="showConfirm()" style="float:right"></i>
+              <!-- <i class="ion-close-circled" ng-click="showConfirm()" style="float:right"></i> -->
             </div>
             <div class="item sample-show-hide " ng-hide="minitask.done != true" ng-repeat="minitask in task.title">
               <i class="icon ion-reply" ng-click="checkboxToggle(activeProject.tasks.indexOf(task),$index)" ></i>
