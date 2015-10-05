@@ -1,4 +1,4 @@
-angular.module('todo', ['ionic', 'todo.controllers', 'todo.service'])
+angular.module('ListMe', ['ionic', 'ListMe.controllers', 'ListMe.service'])
 
 
 /**

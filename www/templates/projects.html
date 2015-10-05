@@ -18,10 +18,15 @@
   <ion-side-menu side="left">
 
     <ion-header-bar class="bar-energized">
-      <h1 class="title">Group({{projects.length}})</h1>
-      <button class="button button-icon ion-plus" ng-click="newProject()"></button>
+      <i class="icon ion-happy-outline" style="font-size:30px;margin-left:10px"></i>
+      <h2 class="title" style="color:white">hey i am user</h2>
     </ion-header-bar>
-    <ion-content >
+    <div class="bar bar-subheader " style="background-color:#FFD633;color:white">
+      <h1 class="title">Group({{projects.length}})</h1>
+      <button class="button button-i  con ion-plus" ng-click="newProject()"></button>
+    </div>
+    <!-- <ion-content class="has-subheader padding"> -->
+    <ion-content style="margin-top:43px">
       <ion-list>
         <ion-item ng-class="{active: activeProject == project}" ng-click="selectProject(project, $index)" ng-repeat="project in projects">
           {{project.title}}
@@ -29,13 +34,16 @@
         </ion-item>
       </ion-list>
     </ion-content>
+    <div class="bar  bar-footer bar-energized" style="margin-bottom:49px">
+      <div class="title">Log out</div>
+    </div>
   </ion-side-menu>
 </ion-side-menus>
 
 <!-- footer -->
 <div class="tabs tabs-icon-left tabs-light">
   <a class="tab-item" href="#/app/active">
-    <i class="icon ion-ios-compose" ></i>
+    <i class="icon ion-ios-compose"></i>
     Active
     <!-- Active({{lengthActive()}}) -->
   </a>
@@ -76,7 +84,7 @@
 
         </div>
         <div class="padding">
-          <button class="button button-block button-energized"  type="submit">Create Task</button>
+          <button class="button button-block button-energized" type="submit">Create Task</button>
         </div>
       </form>
 

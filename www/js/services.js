@@ -1,4 +1,4 @@
-angular.module('todo.service', [])
+angular.module('ListMe.service', [])
 .factory('Projects', function() {
   return {
     all: function() {

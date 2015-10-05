@@ -1,4 +1,4 @@
-angular.module('todo.controllers', ['todo.service'])
+angular.module('ListMe.controllers', [])
 
 
 /**
