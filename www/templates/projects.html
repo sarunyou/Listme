@@ -77,11 +77,22 @@
             <input ng-model="task.title" placeholder="What do you need to do?" type="text">
 
           </label>
-          <label class="item item-input">
-            <span class="input-label">Date</span>
-            <input ng-model="task.date" required type="date">
-          </label>
+          <label class="item item-input" >
+            <div class="">
 
+              <a class="dropdown-toggle" data-target="#" data-toggle="dropdown" href="#" id="dropdown2" role="button">
+                <div class="input-group">
+                  <input class="form-control" placeholder="DateTime"  data-ng-model="task.date | date:'short'" type="text">
+                  <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-calendar"></i>
+                  </span>
+                </div>
+              </a>
+              <ul aria-labelledby="dLabel" class="dropdown-menu" role="menu">
+                <datetimepicker  data-ng-model="task.date"/>
+              </ul>
+            </div>
+          </label>
         </div>
         <div class="padding">
           <button class="button button-block button-energized" type="submit">Create Task</button>

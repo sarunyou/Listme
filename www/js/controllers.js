@@ -1,4 +1,4 @@
-angular.module('ListMe.controllers', [])
+angular.module('ListMe.controllers', ['ui.bootstrap.datetimepicker'])
 
 
 /**
@@ -9,7 +9,7 @@ angular.module('ListMe.controllers', [])
 
 
 .controller('TodoCtrl', function($scope, $timeout, $ionicModal, Projects,
-  $ionicSideMenuDelegate, $ionicPopup) {
+  $ionicSideMenuDelegate, $ionicPopup,$filter) {
 
   //map
 
@@ -87,6 +87,9 @@ angular.module('ListMe.controllers', [])
   $scope.createTask = function(task) {
     var useTo = false;
     var arrDay = [];
+    var Dateformat = $filter('date')(task.date,'short'); //string type
+    console.log(typeof(Dateformat))
+
     arrDay.push(task.date);
     // console.log(typeof(arrDay[0])); // type object
     var valDay = JSON.stringify(arrDay[0]);
@@ -221,6 +224,7 @@ angular.module('ListMe.controllers', [])
   // Try to create the first project, make sure to defer
   // this by using $timeout so everything is initialized
   // properly
+
   $timeout(function() {
     if ($scope.projects.length == 0) {
       while (true) {
