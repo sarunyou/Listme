@@ -141,6 +141,11 @@ angular.module('todo.controllers', ['todo.service'])
   }
   $scope.clearTaskComplete = function() {
     for (var i = 0; i < $scope.activeProject.tasks.length; i++) {
+      for (var j = 0; j < $scope.activeProject.tasks[i].title.length; j++) {
+            if($scope.activeProject.tasks[i].title[j].done == true){
+              $scope.activeProject.tasks[i].done-=1;
+            }
+      }
       $scope.activeProject.tasks[i].title = $scope.activeProject.tasks[i].title.filter(function(item){
         return item.done == false;
       })
