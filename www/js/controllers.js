@@ -87,13 +87,13 @@ angular.module('ListMe.controllers', ['ui.bootstrap.datetimepicker'])
   $scope.createTask = function(task) {
     var useTo = false;
     var arrDay = [];
-    var Dateformat = $filter('date')(task.date,'shortTime'); //string type
+    var Dateformat = $filter('date')(task.date,'H:mm'); //string type
     // var Dateformat = $filter('date')(task.date,'fullDate'); //string type
-    console.log(Dateformat);
-    console.log(task.date);
-    arrDay.push(task.date);
+    // console.log(Dateformat);
+    // console.log(task.date);
+    // arrDay.push(task.date);
     // console.log(typeof(arrDay[0])); // type object
-    var valDay = JSON.stringify(arrDay[0]);
+    var valDay = $filter('date')(task.date,'mediumDate');
     // console.log(valDay)
     if (!$scope.activeProject || !task) {
       return;
@@ -103,15 +103,18 @@ angular.module('ListMe.controllers', ['ui.bootstrap.datetimepicker'])
 
       var StrTask = JSON.stringify($scope.activeProject.tasks[i].date);
       // var ObjTask = JSON.parse(StrTask);
-      // console.log('objec.date = '+ StrTask);
+      console.log(StrTask);
+      console.log(valDay);
       // console.log('task.date = ' +valDay);
       // console.log(arrDay[0]);
       // console.log('ObjTask : '+ObjTask.date);
-      if (valDay == StrTask) {
+      if (JSON.stringify(valDay) == StrTask) {
         console.log('hit same day');
         $scope.activeProject.tasks[i].title.push({
           name: task.title,
-          done: false
+          done: false,
+          time:Dateformat,
+          timeSort:task.date
         });
         useTo = true;
       }
@@ -121,10 +124,13 @@ angular.module('ListMe.controllers', ['ui.bootstrap.datetimepicker'])
       $scope.activeProject.tasks.push({
         title: [{
           name: task.title,
-          done: false
+          done: false,
+          time:Dateformat,
+          timeSort:task.date
         }],
         done: 0,
-        date: task.date
+        date: valDay,
+        dateSort:task.date
       });
     }
     $scope.taskModal.hide();
