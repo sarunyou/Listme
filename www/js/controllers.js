@@ -87,9 +87,10 @@ angular.module('ListMe.controllers', ['ui.bootstrap.datetimepicker'])
   $scope.createTask = function(task) {
     var useTo = false;
     var arrDay = [];
-    var Dateformat = $filter('date')(task.date,'short'); //string type
-    console.log(typeof(Dateformat))
-
+    var Dateformat = $filter('date')(task.date,'shortTime'); //string type
+    // var Dateformat = $filter('date')(task.date,'fullDate'); //string type
+    console.log(Dateformat);
+    console.log(task.date);
     arrDay.push(task.date);
     // console.log(typeof(arrDay[0])); // type object
     var valDay = JSON.stringify(arrDay[0]);
