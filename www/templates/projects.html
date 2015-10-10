@@ -13,6 +13,22 @@
       </button>
     </ion-header-bar>
     <ion-nav-view animation="slide-left-right" name="menuContent"></ion-nav-view>
+
+      <ion-tabs class="tabs-white tabs-icon-only">
+
+        <ion-tab  icon-on="ion-ios-compose" icon-off="ion-ios-compose-outline" href="#/app/active">
+          <!-- Tab 1 content -->
+        </ion-tab>
+
+        <ion-tab  icon-on="ion-ios-star" icon-off="ion-ios-star-outline" href="#/app/complete">
+          <!-- Tab 2 content -->
+        </ion-tab>
+
+        <ion-tab  icon-on="ion-ios-trash" icon-off="ion-ios-trash-outline" ng-click="clearTaskComplete()">
+          <!-- Tab 3 content -->
+        </ion-tab>
+
+      </ion-tabs>
   </ion-pane>
 
   <ion-side-menu side="left">
@@ -34,29 +50,14 @@
         </ion-item>
       </ion-list>
     </ion-content>
-    <div class="bar  bar-footer bar-energized" style="margin-bottom:49px">
+    <div class="bar  bar-footer bar-energized" >
       <div class="title">Log out</div>
     </div>
   </ion-side-menu>
 </ion-side-menus>
 
 <!-- footer -->
-<div class="tabs tabs-icon-left tabs-light">
-  <a class="tab-item" href="#/app/active">
-    <i class="icon ion-ios-compose"></i>
-    Active
-    <!-- Active({{lengthActive()}}) -->
-  </a>
-  <a class="tab-item" href="#/app/complete">
-    <i class="icon ion-flag"></i>
-    Complete
-    <!-- Complete({{ activeProject.tasks.length-lengthActive()}}) -->
-  </a>
-  <a class="tab-item" ng-click="clearTaskComplete()">
-    <i class="icon ion-trash-a"></i>
-    Clear
-  </a>
-</div>
+
 <!-- button create task -->
 <script id="new-task.html" type="text/ng-template">
 
