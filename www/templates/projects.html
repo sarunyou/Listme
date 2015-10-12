@@ -85,7 +85,7 @@
     <!-- Modal content area -->
     <ion-content>
 
-      <form ng-submit="createTask(task)">
+      <form  name = "myform" ng-submit="createTask(task)">
         <div class="list">
           <label class="item item-input">
             <input ng-model="task.title" placeholder="What do you need to do?" type="text">
@@ -96,13 +96,20 @@
             <input ng-model="task.date" type="date">
           </label>
           <label class="item item-input">
-            <span class="input-label">Hour</span>
-            <input type="number" ng-model="task.hour" min="0" max="23">
+            <span class="input-label">Hour:{{task.hour}}</span>
+
+             <input type="range" ng-model="task.hour" min="0" max="23" value="0">
+            <!-- <input max="23" min="0" ng-model="task.hour" type="number"> -->
           </label>
           <label class="item item-input">
-            <span class="input-label" >Minute</span>
-            <input type="number" ng-model="task.minute" min="0" max= "59" >
+            <span class="input-label">Minute:{{task.minute}}</span>
+            <input type="range" ng-model="task.minute" min="0" max="59" value="0">
+
           </label>
+          <!-- <div role="alert">
+            <span class="error" ng-show="myForm.input.$error.number">
+              Not valid number!</span>
+          </div> -->
         </div>
         <div class="padding">
           <button class="button button-block button-energized" type="submit">Create Task</button>
