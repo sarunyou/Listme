@@ -13,7 +13,7 @@
           <i class="icon ion-android-checkbox-outline-blank" ng-click="checkboxToggle(activeProject.tasks.indexOf(task),task.title.indexOf(minitask))" style="font-size:22px"></i>
           <span ng-click="editItem()" ng-hide="editing">{{minitask.hour }}:{{minitask.minute}}
             {{minitask.name}}</span>
-          <i class="ion-close-circled" ng-click="showConfirm(activeProject.tasks.indexOf(task),$index)" style="float:right"></i>
+          <i class="ion-close-circled" ng-click="showConfirm(activeProject.tasks.indexOf(task),task.title.indexOf(minitask))" style="float:right"></i>
           <form ng-submit="doneEditing()">
             <input autofocus class="pe" ng-blur="doneEditing()" ng-model="minitask.name" ng-show="editing">
           </form>
