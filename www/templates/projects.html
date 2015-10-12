@@ -88,22 +88,27 @@
       <form  name = "myform" ng-submit="createTask(task)">
         <div class="list">
           <label class="item item-input">
-            <input ng-model="task.title" placeholder="What do you need to do?" type="text">
+            <input ng-model="task.title" placeholder="What do you need to do?" type="text" required>
 
           </label>
           <label class="item item-input">
             <span class="input-label">Date</span>
-            <input ng-model="task.date" type="date">
+            <input ng-model="task.date" type="date" required>
           </label>
           <label class="item item-input">
-            <span class="input-label">Hour:{{task.hour}}</span>
-
-             <input type="range" ng-model="task.hour" min="0" max="23" value="0">
+            <span class="input-label">Hour</span>
+              <div class="range range-balanced">
+             <input type="range" ng-model="task.hour" min="0" max="23" value="0" required>
+             {{task.hour}}
+           </div>
             <!-- <input max="23" min="0" ng-model="task.hour" type="number"> -->
           </label>
           <label class="item item-input">
-            <span class="input-label">Minute:{{task.minute}}</span>
-            <input type="range" ng-model="task.minute" min="0" max="59" value="0">
+            <span class="input-label">Minute</span>
+            <div class="range range-positive">
+            <input type="range" ng-model="task.minute" min="0" max="59" value="0" required>
+            {{task.minute}}
+            </div>
 
           </label>
           <!-- <div role="alert">
