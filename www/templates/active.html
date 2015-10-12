@@ -9,9 +9,9 @@
         <div class="item item-divider" style="background-color:#FFD633;color:white">
           {{task.date |date:'fullDate' }}
         </div>
-        <div class="item sample-show-hide " ng-hide="minitask.done == true" ng-repeat="minitask in task.title | orderBy : 'timeSort'">
+        <div class="item sample-show-hide " ng-hide="minitask.done == true" ng-repeat="minitask in task.title | orderBy : 'hour'|orderBy :'minute'">
           <i class="icon ion-android-checkbox-outline-blank" ng-click="checkboxToggle(activeProject.tasks.indexOf(task),task.title.indexOf(minitask))" style="font-size:22px"></i>
-          <span ng-click="editItem()" ng-hide="editing">{{minitask.time}}
+          <span ng-click="editItem()" ng-hide="editing">{{minitask.hour }}:{{minitask.minute}}
             {{minitask.name}}</span>
           <i class="ion-close-circled" ng-click="showConfirm(activeProject.tasks.indexOf(task),$index)" style="float:right"></i>
           <form ng-submit="doneEditing()">
@@ -22,20 +22,5 @@
     </div>
 
   </ion-content>
-  <ion-tabs class="tabs-white tabs-icon-only">
-
-    <ion-tab href="#/app/active" icon-off="ion-ios-compose-outline" icon-on="ion-ios-compose">
-      <!-- Tab 1 content -->
-    </ion-tab>
-
-    <ion-tab href="#/app/complete" icon-off="ion-ios-star-outline" icon-on="ion-ios-star">
-      <!-- Tab 2 content -->
-    </ion-tab>
-
-    <ion-tab icon-off="ion-ios-trash-outline" icon-on="ion-ios-trash" ng-click="clearTaskComplete()">
-      <!-- Tab 3 content -->
-    </ion-tab>
-
-  </ion-tabs>
 
 </ion-view>

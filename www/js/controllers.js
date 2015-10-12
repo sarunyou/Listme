@@ -85,16 +85,15 @@ angular.module('ListMe.controllers', ['ui.bootstrap.datetimepicker'])
 
   }
   $scope.createTask = function(task) {
+    if(task.hour < 10){
+      hourTemp = '0'+String(task.hour);
+    };
+    if(task.minute < 10){
+      minuteTemp = '0'+String(task.minute);
+    };
     var useTo = false;
-    var arrDay = [];
     var Dateformat = $filter('date')(task.date,'shortTime'); //string type
-    // var Dateformat = $filter('date')(task.date,'fullDate'); //string type
-    // console.log(Dateformat);
-    // console.log(task.date);
-    // arrDay.push(task.date);
-    // console.log(typeof(arrDay[0])); // type object
     var valDay = $filter('date')(task.date,'mediumDate');
-    // console.log(valDay)
     if (!$scope.activeProject || !task) {
       return;
     };
@@ -102,19 +101,15 @@ angular.module('ListMe.controllers', ['ui.bootstrap.datetimepicker'])
     for (var i = 0; i < $scope.activeProject.tasks.length; i++) {
 
       var StrTask = JSON.stringify($scope.activeProject.tasks[i].date);
-      // var ObjTask = JSON.parse(StrTask);
       console.log(StrTask);
       console.log(valDay);
-      // console.log('task.date = ' +valDay);
-      // console.log(arrDay[0]);
-      // console.log('ObjTask : '+ObjTask.date);
       if (JSON.stringify(valDay) == StrTask) {
         console.log('hit same day');
         $scope.activeProject.tasks[i].title.push({
           name: task.title,
           done: false,
-          time:Dateformat,
-          timeSort:task.date
+          hour:hourTemp,
+          minute:minuteTemp
         });
         useTo = true;
       }
@@ -125,8 +120,8 @@ angular.module('ListMe.controllers', ['ui.bootstrap.datetimepicker'])
         title: [{
           name: task.title,
           done: false,
-          time:Dateformat,
-          timeSort:task.date
+          hour:hourTemp,
+          minute:minuteTemp
         }],
         done: 0,
         date: valDay,
@@ -134,12 +129,9 @@ angular.module('ListMe.controllers', ['ui.bootstrap.datetimepicker'])
       });
     }
     $scope.taskModal.hide();
-
-    // Inefficient, but save all the projects
     Projects.save($scope.projects);
     $scope.activeProject.active = true;
     task.title = "";
-    // location.reload();
   };
 
   $scope.newTask = function() {
