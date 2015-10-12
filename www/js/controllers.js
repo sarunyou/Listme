@@ -87,9 +87,13 @@ angular.module('ListMe.controllers', ['ui.bootstrap.datetimepicker'])
   $scope.createTask = function(task) {
     if(task.hour < 10){
       hourTemp = '0'+String(task.hour);
+    }else {
+      hourTemp = String(task.hour);
     };
     if(task.minute < 10){
       minuteTemp = '0'+String(task.minute);
+    }else {
+      minuteTemp = String(task.minute);
     };
     var useTo = false;
     var Dateformat = $filter('date')(task.date,'shortTime'); //string type
