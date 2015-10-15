@@ -9,7 +9,7 @@
         <div class="item item-divider" style="background-color:#FFD633;color:white">
           {{task.date |date:'fullDate' }}
         </div>
-        <div class="item sample-show-hide " ng-hide="minitask.done == true" ng-repeat="minitask in task.title | orderBy : 'hour'|orderBy :'minute'">
+        <div class="item sample-show-hide " ng-hide="minitask.done == true" ng-repeat="minitask in task.title | orderBy : ['hour','minute']">
           <i class="icon ion-android-checkbox-outline-blank" ng-click="checkboxToggle(activeProject.tasks.indexOf(task),task.title.indexOf(minitask))" style="font-size:22px"></i>
           <span ng-click="editItem()" ng-hide="editing">{{minitask.hour }}:{{minitask.minute}}
             {{minitask.name}}</span>
