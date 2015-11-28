@@ -7,7 +7,7 @@
           {{task.date |date:'fullDate' }}
         </div>
         <div class="item sample-show-hide " ng-hide="minitask.done != true" ng-repeat="minitask in task.title">
-          <i class="icon ion-reply" ng-click="checkboxToggle(activeProject.tasks.indexOf(task),$index)"></i>
+          <i class="icon ion-reply" ng-click="checkboxToggleComplete(activeProject.tasks.indexOf(task),$index)"></i>
           {{minitask.name}}
         </div>
       </div>

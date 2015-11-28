@@ -152,6 +152,7 @@ angular.module('ListMe.controllers', ['ui.bootstrap.datetimepicker'])
     $scope.taskModal.hide();
   }
   $scope.clearTaskComplete = function() {
+    numFinishedTask = 0;
     for (var i = 0; i < $scope.activeProject.tasks.length; i++) {
       for (var j = 0; j < $scope.activeProject.tasks[i].title.length; j++) {
             if($scope.activeProject.tasks[i].title[j].done == true){
@@ -183,7 +184,22 @@ angular.module('ListMe.controllers', ['ui.bootstrap.datetimepicker'])
     }
     return count;
   };
-  $scope.checkboxToggle = function(idTasks, idTask) {
+  var numFinishedTask = 0;
+  $scope.checkboxToggleActive = function(idTasks, idTask) {
+      numFinishedTask+=1;
+      console.log($scope.activeProject.tasks[idTasks].title[idTask].name);
+      if ($scope.activeProject.tasks[idTasks].title[idTask].done == false) {
+        $scope.activeProject.tasks[idTasks].title[idTask].done = true;
+        $scope.activeProject.tasks[idTasks].done += 1;
+      } else {
+        $scope.activeProject.tasks[idTasks].title[idTask].done = false;
+        $scope.activeProject.tasks[idTasks].done -= 1;
+
+      }
+      Projects.save($scope.projects);
+    }
+  $scope.checkboxToggleComplete = function(idTasks, idTask) {
+      numFinishedTask-=1;
       console.log($scope.activeProject.tasks[idTasks].title[idTask].name);
       if ($scope.activeProject.tasks[idTasks].title[idTask].done == false) {
         $scope.activeProject.tasks[idTasks].title[idTask].done = true;
