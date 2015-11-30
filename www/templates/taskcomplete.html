@@ -1,6 +1,10 @@
 <ion-view >
   <ion-content class="has-subheader padding" style="height:550px">
-
+    <div class="card">
+    <div class="item item-text-wrap" style="text-align:center">
+      Tasks already finished :{{activeProject.numFinishedTask}}
+    </div>
+  </div>
     <div>
       <div class="card sample-show-hide" class="sample-show-hide" ng-hide="task.done == 0" ng-repeat="task in activeProject.tasks | orderBy : 'date' ">
         <div class="item item-divider" style="background-color:#FFD633;color:white">

@@ -9,7 +9,7 @@ angular.module('ListMe.controllers', ['ui.bootstrap.datetimepicker'])
 
 
 .controller('TodoCtrl', function($scope, $timeout, $ionicModal, Projects,
-  $ionicSideMenuDelegate, $ionicPopup,$filter) {
+  $ionicSideMenuDelegate, $ionicPopup, $filter) {
 
   //map
 
@@ -33,18 +33,22 @@ angular.module('ListMe.controllers', ['ui.bootstrap.datetimepicker'])
   // Load or initialize projects
   $scope.projects = Projects.all();
   $scope.editing = false;
+  // if (!$scope.numFinishedTask ) {
+  //   $scope.numFinishedTask = 0;
+  // }
+
   // Grab the last active, or the first project
   $scope.activeProject = $scope.projects[Projects.getLastActiveIndex()];
 
   // edit text
-    $scope.editItem = function () {
-        $scope.editing = true;
-    }
+  $scope.editItem = function() {
+    $scope.editing = true;
+  }
 
-    $scope.doneEditing = function () {
-        $scope.editing = false;
-        //dong some background ajax calling for persistence...
-    };
+  $scope.doneEditing = function() {
+    $scope.editing = false;
+    //dong some background ajax calling for persistence...
+  };
   // $scope.activeProject.active =  true;
   $scope.showComplete = function() {
     $scope.activeProject.active = false;
@@ -85,25 +89,25 @@ angular.module('ListMe.controllers', ['ui.bootstrap.datetimepicker'])
 
   }
   $scope.createTask = function(task) {
-    if(!task.hour){
+    if (!task.hour) {
       task.hour = 0;
     }
-    if(!task.minute){
+    if (!task.minute) {
       task.minute = 0;
     }
-    if(task.hour < 10){
-      hourTemp = '0'+String(task.hour);
-    }else {
+    if (task.hour < 10) {
+      hourTemp = '0' + String(task.hour);
+    } else {
       hourTemp = String(task.hour);
     };
-    if(task.minute < 10){
-      minuteTemp = '0'+String(task.minute);
-    }else {
+    if (task.minute < 10) {
+      minuteTemp = '0' + String(task.minute);
+    } else {
       minuteTemp = String(task.minute);
     };
     var useTo = false;
-    var Dateformat = $filter('date')(task.date,'shortTime'); //string type
-    var valDay = $filter('date')(task.date,'mediumDate');
+    var Dateformat = $filter('date')(task.date, 'shortTime'); //string type
+    var valDay = $filter('date')(task.date, 'mediumDate');
     if (!$scope.activeProject || !task) {
       return;
     };
@@ -118,8 +122,8 @@ angular.module('ListMe.controllers', ['ui.bootstrap.datetimepicker'])
         $scope.activeProject.tasks[i].title.push({
           name: task.title,
           done: false,
-          hour:hourTemp,
-          minute:minuteTemp
+          hour: hourTemp,
+          minute: minuteTemp
         });
         useTo = true;
       }
@@ -130,12 +134,12 @@ angular.module('ListMe.controllers', ['ui.bootstrap.datetimepicker'])
         title: [{
           name: task.title,
           done: false,
-          hour:hourTemp,
-          minute:minuteTemp
+          hour: hourTemp,
+          minute: minuteTemp
         }],
         done: 0,
         date: valDay,
-        dateSort:task.date
+        dateSort: task.date
       });
     }
     $scope.taskModal.hide();
@@ -152,18 +156,18 @@ angular.module('ListMe.controllers', ['ui.bootstrap.datetimepicker'])
     $scope.taskModal.hide();
   }
   $scope.clearTaskComplete = function() {
-    numFinishedTask = 0;
+    $scope.activeProject.numFinishedTask = 0;
     for (var i = 0; i < $scope.activeProject.tasks.length; i++) {
       for (var j = 0; j < $scope.activeProject.tasks[i].title.length; j++) {
-            if($scope.activeProject.tasks[i].title[j].done == true){
-              $scope.activeProject.tasks[i].done-=1;
-            }
+        if ($scope.activeProject.tasks[i].title[j].done == true) {
+          $scope.activeProject.tasks[i].done -= 1;
+        }
       }
-      $scope.activeProject.tasks[i].title = $scope.activeProject.tasks[i].title.filter(function(item){
+      $scope.activeProject.tasks[i].title = $scope.activeProject.tasks[i].title.filter(function(item) {
         return item.done == false;
       })
     }
-    $scope.activeProject.tasks = $scope.activeProject.tasks.filter(function(task){
+    $scope.activeProject.tasks = $scope.activeProject.tasks.filter(function(task) {
       return task.title.length != 0;
     })
     Projects.save($scope.projects);
@@ -184,22 +188,21 @@ angular.module('ListMe.controllers', ['ui.bootstrap.datetimepicker'])
     }
     return count;
   };
-  var numFinishedTask = 0;
   $scope.checkboxToggleActive = function(idTasks, idTask) {
-      numFinishedTask+=1;
-      console.log($scope.activeProject.tasks[idTasks].title[idTask].name);
-      if ($scope.activeProject.tasks[idTasks].title[idTask].done == false) {
-        $scope.activeProject.tasks[idTasks].title[idTask].done = true;
-        $scope.activeProject.tasks[idTasks].done += 1;
-      } else {
-        $scope.activeProject.tasks[idTasks].title[idTask].done = false;
-        $scope.activeProject.tasks[idTasks].done -= 1;
+    $scope.activeProject.numFinishedTask += 1;
+    console.log($scope.activeProject.tasks[idTasks].title[idTask].name);
+    if ($scope.activeProject.tasks[idTasks].title[idTask].done == false) {
+      $scope.activeProject.tasks[idTasks].title[idTask].done = true;
+      $scope.activeProject.tasks[idTasks].done += 1;
+    } else {
+      $scope.activeProject.tasks[idTasks].title[idTask].done = false;
+      $scope.activeProject.tasks[idTasks].done -= 1;
 
-      }
-      Projects.save($scope.projects);
     }
+    Projects.save($scope.projects);
+  }
   $scope.checkboxToggleComplete = function(idTasks, idTask) {
-      numFinishedTask-=1;
+      $scope.activeProject.numFinishedTask -= 1;
       console.log($scope.activeProject.tasks[idTasks].title[idTask].name);
       if ($scope.activeProject.tasks[idTasks].title[idTask].done == false) {
         $scope.activeProject.tasks[idTasks].title[idTask].done = true;
@@ -212,7 +215,7 @@ angular.module('ListMe.controllers', ['ui.bootstrap.datetimepicker'])
       Projects.save($scope.projects);
     }
     // A confirm dialog
-  $scope.showConfirm = function(idTasks,idTask) {
+  $scope.showConfirm = function(idTasks, idTask) {
     var confirmPopup = $ionicPopup.confirm({
       title: 'Cancel Task',
       template: 'Are you sure you want to cancel this task?'
